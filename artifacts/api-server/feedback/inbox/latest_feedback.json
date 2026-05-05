@@ -1,0 +1,59 @@
+{
+  "packet_id": "86dff22a-8e96-45dd-aedc-ed8720271d0e",
+  "created_at": "2026-05-05T10:34:15.464Z",
+  "source": "auto_analyze",
+  "status": "pending_review",
+  "summary": "All 4 bots completed their first cycle without hard failures, but only Scalper and Momentum Rider traded because the equity market was closed and only BTC/ETH were eligible. The race comparison is effectively meaningless so far because every bot is still at exactly $250 equity and the leader was chosen only by tie-breakers based on deployment rather than performance.",
+  "problems_found": [
+    "Race ranking is premature and misleading: all bots have total_equity 250 and total_pnl 0, yet the app declares a leader based on deployment/tie-breakers instead of actual marked-to-market performance.",
+    "Two agents are structurally weak in this session: Conservative is session-ineligible when equities are closed, and Dip Buyer had no valid setup because only rising crypto symbols were available.",
+    "Strategy-universe mismatch reduces race fairness: 2 of 4 bots could not realistically participate in an overnight crypto-only session.",
+    "Only one cycle has completed for each bot, but first_cycle_terminal is true for all bots, which suggests the race may stop before strategies can manage exits or generate real PnL.",
+    "No post-trade price updates occurred after fills; unrealized_pnl stayed 0 because last_price equals fill_price, so there is no real marked-to-market comparison yet.",
+    "data_fetch_started and data_fetch_completed are identical timestamps for every bot, which looks like missing or placeholder diagnostics rather than real fetch timing.",
+    "scan_result.reasoning_summary strings are truncated for multiple bots, indicating export/UI clipping or serialization limits on rationale text.",
+    "latest_logs messages are also truncated in several places, causing loss of important context for debugging and review.",
+    "Symbol normalization is inconsistent: configured symbols use BTC-USD/ETH-USD while positions and fills use BTC/USD/ETH/USD.",
+    "Conservative strategy references symbols not present in the race universe (AMZN, NVDA), indicating a mismatch between configured symbols and strategy prompt/universe handling.",
+    "Race health says bots_completed is 2 while all 4 bots completed_first_cycle and none are in progress; completion semantics are unclear or buggy.",
+    "Tie-break labeling is confusing: is_tied is false on each bot, but tie_break_reason says equity within $0.01 and summary leader says 'Equity tied'.",
+    "Session eligibility logic is unevenly surfaced: Conservative has session_eligible false, Dip Buyer has true despite having no valid setup in the current market regime, which may distort comparison logic.",
+    "No errors were recorded, but multiple data-quality issues exist, so observability is too weak to distinguish true success from low-information runs."
+  ],
+  "recommended_changes": [
+    "Change race comparison logic so bots are not ranked as winners until there is real performance separation: require either non-zero marked-to-market PnL, at least one post-entry repricing update, or completion of a minimum evaluation window/cycle count before declaring a leader.",
+    "Let races adapt to session context before launch: when equities are closed, either switch to crypto-capable bots only, substitute alternative bots, or mark the race as 'partial/unfair session' instead of directly comparing all 4.",
+    "Allow multi-cycle execution and exit management before first_cycle_terminal becomes true for momentum/scalping bots so they can realize strategy edge rather than only open positions.",
+    "Add a price-refresh/mark-to-market pass immediately after order fills and on subsequent intervals so unrealized PnL and ranking reflect live market movement.",
+    "Normalize symbol formatting across config, quotes, orders, positions, and logs to one canonical format, with broker-specific translation only at execution boundaries.",
+    "Fix export/log serialization limits so reasoning_summary and latest_logs preserve full text without truncation in exported race data.",
+    "Clarify race status fields: unify bots_completed, cycle_status, first_cycle_terminal, race_ready_for_comparison, and tie labels so the state model is internally consistent.",
+    "Update bot/session eligibility rules so bots that cannot trade the available universe are explicitly excluded from winner ranking rather than placed last as if they underperformed.",
+    "Align strategy prompts/universes with configured race symbols so bots do not mention unavailable assets like AMZN/NVDA unless those symbols are actually supplied.",
+    "Expand diagnostics with real fetch duration, quote age, fill latency, and mark-to-market timestamp so debugging can identify stale-data races."
+  ],
+  "files_to_modify": [
+    "src/lib/ai-brain/raceRanking.ts",
+    "src/lib/ai-brain/raceComparison.ts",
+    "src/lib/ai-brain/sessionEligibility.ts",
+    "src/lib/ai-brain/exportRaceSnapshot.ts",
+    "src/lib/ai-brain/symbols.ts",
+    "src/lib/ai-brain/markToMarket.ts",
+    "src/lib/ai-brain/strategyRunner.ts",
+    "src/lib/ai-brain/bots/conservative.ts",
+    "src/lib/ai-brain/types.ts",
+    "src/components/ai-brain/RaceLeaderboard.tsx"
+  ],
+  "tests_to_run": [
+    "Run a 4-bot race during equity market closed hours and verify no winner is declared when all bots have identical equity and zero PnL.",
+    "Verify the UI/export shows a status like 'awaiting evaluation window' or 'tied/no performance data yet' instead of ranking by deployment alone.",
+    "Open crypto trades, then force a quote refresh and confirm last_price, market_value, unrealized_pnl, and total_equity update after fills.",
+    "Confirm symbol display is consistent everywhere as either BTC-USD/ETH-USD or BTC/USD/ETH/USD, with no mixed formats in one export.",
+    "Check that full reasoning_summary and latest_logs are preserved in the export without truncation.",
+    "Verify bots that cannot trade the session universe are marked excluded/ineligible for ranking rather than simply ranked last.",
+    "Confirm bots_completed, cycle_status, first_cycle_terminal, race_ready_for_comparison, is_tied, and leader text are internally consistent across the export and UI.",
+    "Run a daytime equities-open race and verify Conservative can participate when its allowed symbols are actually in the race universe.",
+    "Run a multi-cycle race and confirm open-position bots continue to manage exits instead of stopping after the first entry cycle."
+  ],
+  "next_prompt_for_replit": "Implement a race-ranking fairness fix for the AI Brain 4-bot race. Right now the app declares a leader even when every bot has identical total_equity and total_pnl=0 after only the first cycle, using deployment-based tie-breakers. I want ranking and leader selection to require meaningful performance data. Please update the ranking/comparison pipeline so that: 1) if all bots are tied on total_equity within epsilon and there has been no non-zero realized or unrealized PnL and no post-fill mark-to-market update, the race should not declare a winner yet; 2) in that case return a neutral state such as 'awaiting evaluation window' or 'no performance separation yet'; 3) keep tie-breakers only for cases where there is real performance data but bots remain tied; 4) bots that are session-ineligible because their strategy universe is unavailable should be excluded from winner determination and clearly labeled as excluded/ineligible, not treated as losing performers; 5) make the exported summary fields internally consistent, including leader text, is_tie, race_ready_for_comparison, comparison_reason, and tie_break_reason; 6) update the leaderboard UI to show this neutral state clearly. Also add tests covering: identical equity after first cycle with zero PnL, identical equity after mark-to-market with real price movement, and a session where some bots are ineligible due to market hours. Keep existing data structures where possible, but add explicit fields if needed to represent 'comparison deferred' and 'excluded from ranking'."
+}

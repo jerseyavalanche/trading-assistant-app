@@ -1,0 +1,114 @@
+Fix AI Brain race portfolio accounting and leaderboard ranking.
+
+Problem:
+Buys are currently being counted as immediate losses. That is wrong. A BUY should convert cash into an open position, not reduce PnL.
+
+Goal:
+Implement isolated virtual sub-portfolios per bot. Race scoring must come from these virtual portfolios, not shared broker/account balances.
+
+Required portfolio fields per bot:
+- starting_budget
+- cash
+- open_positions[]
+- realized_pnl
+- unrealized_pnl
+- total_pnl
+- total_pnl_pct
+- total_equity
+
+Open position fields:
+- symbol
+- qty
+- notional
+- avg_entry_price
+- cost_basis
+- opened_at
+- last_price
+- market_value
+- unrealized_pnl
+
+BUY behavior:
+- Reduce that bot’s cash by filled notional plus fees if fees exist.
+- Create or update an open position.
+- Update qty/notional/avg_entry_price/cost_basis.
+- Do NOT count the buy amount as a loss.
+- Immediately after buying $125 from a $250 budget, bot should show:
+  - cash ≈ 125
+  - open_position_value ≈ 125
+  - unrealized_pnl ≈ 0
+  - realized_pnl = 0
+  - total_pnl ≈ 0
+  - total_equity ≈ 250
+
+SELL behavior:
+- Increase bot cash by proceeds minus fees if fees exist.
+- Reduce or close the open position.
+- Move closed-position PnL into realized_pnl.
+- Remove closed positions or mark qty=0 and exclude from active open_positions.
+
+Mark-to-market:
+- Every race cycle, use latest price per symbol.
+- Revalue each bot’s open positions.
+- Update:
+  - unrealized_pnl = sum(position market_value - cost_basis)
+  - total_equity = cash + sum(open position market_value)
+  - total_pnl = total_equity - starting_budget
+  - total_pnl_pct = total_pnl / starting_budget * 100
+
+Leaderboard:
+- Stop ranking by current net_pnl if it treats buys as losses.
+- Rank by total_equity descending.
+- Or rank by total_pnl_pct descending.
+- Ensure bots holding positions are not punished just because cash went down.
+
+Race export schema:
+Extend each bot export object to include:
+- starting_budget
+- cash
+- open_positions
+- open_position_value
+- realized_pnl
+- unrealized_pnl
+- total_pnl
+- total_pnl_pct
+- total_equity
+- execution_details
+
+execution_details should include:
+- cycle
+- action
+- symbol
+- side
+- qty
+- notional
+- fill_price
+- fees
+- timestamp
+- portfolio_before
+- portfolio_after
+
+Important architecture rule:
+Keep existing broker paper trades if useful, but race scoring must use the isolated virtual portfolio per bot. Do not use shared broker account balances for bot ranking.
+
+Regression test:
+Add a test for this exact case:
+
+Given:
+- starting_budget = 250
+- Bot buys 125 dollars of BTC-USD or ETH-USD in cycle 1
+- Latest price equals fill price
+
+Expected immediately after fill:
+- cash is approximately 125
+- open_positions length is 1
+- open_position_value is approximately 125
+- realized_pnl equals 0
+- unrealized_pnl is approximately 0
+- total_pnl is approximately 0, not -125
+- total_equity is approximately 250
+- leaderboard does not rank this bot lower merely because it bought
+
+Find the current accounting, race export, and leaderboard code. Patch it cleanly. Add tests. Run the test suite. Then show me:
+1. files changed
+2. test command used
+3. before/after example export for the $125 buy case

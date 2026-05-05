@@ -1,0 +1,181 @@
+Fix the AI Brain trading race portfolio system so buys are no longer treated as losses and each bot is scored using its own isolated virtual portfolio.
+
+PROBLEM:
+Currently, when a bot executes a BUY, cash decreases and the system incorrectly counts that as negative PnL. This breaks rankings and makes active bots look worse than inactive ones.
+
+GOAL:
+Implement a correct equity-based portfolio system per bot and fix leaderboard ranking.
+
+-----------------------------------
+1. CREATE ISOLATED PORTFOLIO MODEL
+-----------------------------------
+
+Each bot must have its own portfolio object:
+
+Fields:
+- starting_budget (float)
+- cash (float)
+- open_positions (list)
+- realized_pnl (float)
+- unrealized_pnl (float)
+- total_pnl (float)
+- total_pnl_pct (float)
+- total_equity (float)
+
+Each open position must include:
+- symbol
+- qty
+- notional
+- avg_entry_price
+- cost_basis
+- opened_at
+- last_price
+- market_value
+- unrealized_pnl
+
+-----------------------------------
+2. FIX BUY LOGIC
+-----------------------------------
+
+On BUY:
+- Reduce bot.cash by filled notional (+ fees if applicable)
+- Create or update open position
+- Update:
+  - qty
+  - avg_entry_price
+  - cost_basis
+
+CRITICAL:
+- DO NOT modify realized_pnl
+- DO NOT treat the buy as a loss
+
+Expected result after:
+starting_budget = 250
+buy = 125
+
+State should be:
+- cash ≈ 125
+- open_position_value ≈ 125
+- unrealized_pnl ≈ 0
+- realized_pnl = 0
+- total_pnl ≈ 0
+- total_equity ≈ 250
+
+-----------------------------------
+3. IMPLEMENT SELL LOGIC
+-----------------------------------
+
+On SELL:
+- Increase bot.cash by proceeds (minus fees)
+- Reduce or close the position
+- Move profit/loss into realized_pnl
+- Remove position if qty == 0
+
+-----------------------------------
+4. ADD MARK-TO-MARKET (CRITICAL)
+-----------------------------------
+
+Every cycle:
+- Fetch latest price per symbol
+- Update each position:
+  - last_price
+  - market_value = qty * price
+  - unrealized_pnl = market_value - cost_basis
+
+Then update portfolio:
+- unrealized_pnl = sum of all positions
+- total_equity = cash + sum(market_value)
+- total_pnl = total_equity - starting_budget
+- total_pnl_pct = (total_pnl / starting_budget) * 100
+
+-----------------------------------
+5. FIX LEADERBOARD
+-----------------------------------
+
+Replace ranking logic:
+
+OLD (WRONG):
+- net_pnl
+
+NEW (CORRECT):
+- total_equity DESC
+OR
+- total_pnl_pct DESC
+
+Bots holding positions must NOT be penalized for reduced cash.
+
+-----------------------------------
+6. EXTEND EXPORT SCHEMA
+-----------------------------------
+
+Each bot export must include:
+
+- starting_budget
+- cash
+- open_positions
+- open_position_value
+- realized_pnl
+- unrealized_pnl
+- total_pnl
+- total_pnl_pct
+- total_equity
+
+Add execution_details:
+
+[
+  {
+    "cycle": int,
+    "action": "BUY|SELL",
+    "symbol": string,
+    "side": string,
+    "qty": float,
+    "notional": float,
+    "fill_price": float,
+    "fees": float,
+    "timestamp": string,
+    "portfolio_before": object,
+    "portfolio_after": object
+  }
+]
+
+-----------------------------------
+7. ARCHITECTURE RULE (IMPORTANT)
+-----------------------------------
+
+- Keep broker paper trades if needed
+- BUT DO NOT use shared broker balances for scoring
+- All rankings must come from per-bot virtual portfolios
+
+-----------------------------------
+8. ADD REGRESSION TEST (MANDATORY)
+-----------------------------------
+
+Test case:
+
+Given:
+- starting_budget = 250
+- bot buys 125 of BTC-USD
+- price does not change
+
+ASSERT:
+- cash ≈ 125
+- open_positions.length == 1
+- open_position_value ≈ 125
+- realized_pnl == 0
+- unrealized_pnl ≈ 0
+- total_pnl ≈ 0 (NOT -125)
+- total_equity ≈ 250
+
+-----------------------------------
+9. OUTPUT AFTER IMPLEMENTATION
+-----------------------------------
+
+Show:
+1. Files modified
+2. Test command used
+3. Before/after export sample for the $125 buy case
+
+-----------------------------------
+
+FINAL OBJECTIVE:
+Convert system from cash-based accounting → equity-based accounting so bots are ranked on real performance, not broken math.

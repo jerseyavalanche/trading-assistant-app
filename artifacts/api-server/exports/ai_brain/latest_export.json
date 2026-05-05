@@ -1,0 +1,861 @@
+{
+  "export_id": "38e78126-bbb1-47cb-aa8e-bec68d15e49b",
+  "created_at": "2026-05-05T10:33:44.286Z",
+  "screen": "AI Brain",
+  "mode": "4-Bot Race",
+  "active": true,
+  "symbols": [
+    "^GSPC",
+    "^IXIC",
+    "^DJI",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "TSLA",
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "budget_per_bot": 250,
+  "total_budget": 1000,
+  "race_health": {
+    "total_bots": 4,
+    "bots_not_started": 0,
+    "bots_in_progress": 0,
+    "bots_completed_first_cycle": 4,
+    "bots_completed": 2,
+    "bots_no_action": 2,
+    "bots_failed": 0,
+    "bots_timed_out": 0,
+    "race_ready_for_comparison": true
+  },
+  "bots": [
+    {
+      "id": "scalper",
+      "name": "Scalper",
+      "emoji": "⚡",
+      "color": "#FF8C42",
+      "status": "LIVE",
+      "budget": 250,
+      "starting_budget": 250,
+      "cash": 100,
+      "open_positions": [
+        {
+          "symbol": "BTC/USD",
+          "qty": 0.0009287634703209918,
+          "notional": 75,
+          "avg_entry_price": 80752.53,
+          "cost_basis": 75,
+          "opened_at": "2026-05-05T10:31:47.128Z",
+          "last_price": 80752.53,
+          "market_value": 75,
+          "unrealized_pnl": 0
+        },
+        {
+          "symbol": "ETH/USD",
+          "qty": 0.03159038641360661,
+          "notional": 75,
+          "avg_entry_price": 2374.14,
+          "cost_basis": 75,
+          "opened_at": "2026-05-05T10:31:47.216Z",
+          "last_price": 2374.14,
+          "market_value": 75,
+          "unrealized_pnl": 0
+        }
+      ],
+      "open_position_value": 150,
+      "realized_pnl": 0,
+      "unrealized_pnl": 0,
+      "total_equity": 250,
+      "total_pnl": 0,
+      "total_pnl_pct": 0,
+      "execution_details": [
+        {
+          "cycle": 1,
+          "action": "BUY",
+          "symbol": "BTC/USD",
+          "side": "buy",
+          "qty": 0.0009287634703209918,
+          "notional": 75,
+          "fill_price": 80752.53,
+          "fees": 0,
+          "timestamp": "2026-05-05T10:31:47.128Z",
+          "portfolio_before": {
+            "cash": 250,
+            "open_position_value": 0,
+            "realized_pnl": 0,
+            "total_equity": 250
+          },
+          "portfolio_after": {
+            "cash": 175,
+            "open_position_value": 75,
+            "realized_pnl": 0,
+            "total_equity": 250
+          }
+        },
+        {
+          "cycle": 1,
+          "action": "BUY",
+          "symbol": "ETH/USD",
+          "side": "buy",
+          "qty": 0.03159038641360661,
+          "notional": 75,
+          "fill_price": 2374.14,
+          "fees": 0,
+          "timestamp": "2026-05-05T10:31:47.216Z",
+          "portfolio_before": {
+            "cash": 175,
+            "open_position_value": 75,
+            "realized_pnl": 0,
+            "total_equity": 250
+          },
+          "portfolio_after": {
+            "cash": 100,
+            "open_position_value": 150,
+            "realized_pnl": 0,
+            "total_equity": 250
+          }
+        }
+      ],
+      "first_cycle_terminal": true,
+      "diagnostics": {
+        "started_at": "2026-05-05T10:31:40.238Z",
+        "completed_at": "2026-05-05T10:31:49.954Z",
+        "data_fetch_started": "2026-05-05T10:31:40.238Z",
+        "data_fetch_completed": "2026-05-05T10:31:40.238Z",
+        "strategy_started": "2026-05-05T10:31:40.238Z",
+        "strategy_completed": "2026-05-05T10:31:49.954Z",
+        "init_error": null,
+        "timeout_at": null
+      },
+      "net_pnl": 0,
+      "net_spent": 150,
+      "net_received": 0,
+      "trades": 2,
+      "cycles_completed": 1,
+      "cycles_started": 1,
+      "cycle_status": "COMPLETED",
+      "lastScan": "2026-05-05T10:31:40.238Z",
+      "scan_result": {
+        "action": "BUY",
+        "symbols_considered": [
+          "BTC-USD",
+          "ETH-USD"
+        ],
+        "reasoning_summary": "Scan complete. No open positions and $250 cash available. Both tradable crypto symbols show strong positive intraday momentum above the +0.3% aggressive scalping threshold: BTC-USD +1.16% and ETH-USD ",
+        "order_attempted": true,
+        "order_status": "filled",
+        "completed_at": "2026-05-05T10:31:49.954Z"
+      },
+      "latest_logs": [
+        {
+          "type": "info",
+          "message": "Scan complete and strategy executed.\n\nOrders placed:\n- Buy $75 BTC-USD at market, GTC\n- Buy $75 ETH-USD at market, GTC\n\nRationale:\n- Both BTC and ETH are up about +1.17% today, clearing the +0.3% mome",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:49.954Z"
+        },
+        {
+          "type": "buy",
+          "message": "BUY ETH/USD — $75.00 | equity +$0.00 | cash $100.00",
+          "symbol": "ETH/USD",
+          "timestamp": "2026-05-05T10:31:47.216Z"
+        },
+        {
+          "type": "info",
+          "message": "📤 BUY ETH/USD $75.00 (crypto/gtc)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:47.128Z"
+        },
+        {
+          "type": "buy",
+          "message": "BUY BTC/USD — $75.00 | equity +$0.00 | cash $175.00",
+          "symbol": "BTC/USD",
+          "timestamp": "2026-05-05T10:31:47.128Z"
+        },
+        {
+          "type": "info",
+          "message": "📤 BUY BTC/USD $75.00 (crypto/gtc)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:47.038Z"
+        },
+        {
+          "type": "ai",
+          "message": "Scan complete. No open positions and $250 cash available. Both tradable crypto symbols show strong positive intraday momentum above the +0.3% aggressive scalping threshold: BTC-USD +1.16% and ETH-USD +1.17%. Strategy allows up to 30% of budget per position, so I will deploy two fast momentum entries at $75 each (30% max is $75) to diversify across both leaders while keeping reserve cash for later rotation. Using market orders with time_in_force=gtc per crypto rules. Plan after entry: target roughly +1.5%, cut near -1%, and if either stalls over subsequent scans, rotate out.",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:45.323Z"
+        },
+        {
+          "type": "market",
+          "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "market",
+          "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        }
+      ],
+      "did_trade": true,
+      "capital_deployed": 150,
+      "deployment_pct": 60,
+      "session_eligible": true,
+      "rank": 1,
+      "rank_label": "#1",
+      "is_tied": false,
+      "tie_break_reason": "equity within $0.01 — ranked by tie-breakers",
+      "comparison_reason": "traded — deployed 60.0% ($150.00)"
+    },
+    {
+      "id": "momentum",
+      "name": "Momentum Rider",
+      "emoji": "🚀",
+      "color": "#00D4AA",
+      "status": "LIVE",
+      "budget": 250,
+      "starting_budget": 250,
+      "cash": 125,
+      "open_positions": [
+        {
+          "symbol": "BTC/USD",
+          "qty": 0.0007739695586008265,
+          "notional": 62.5,
+          "avg_entry_price": 80752.53,
+          "cost_basis": 62.5,
+          "opened_at": "2026-05-05T10:31:47.256Z",
+          "last_price": 80752.53,
+          "market_value": 62.5,
+          "unrealized_pnl": 0
+        },
+        {
+          "symbol": "ETH/USD",
+          "qty": 0.026325322011338845,
+          "notional": 62.5,
+          "avg_entry_price": 2374.14,
+          "cost_basis": 62.5,
+          "opened_at": "2026-05-05T10:31:47.288Z",
+          "last_price": 2374.14,
+          "market_value": 62.5,
+          "unrealized_pnl": 0
+        }
+      ],
+      "open_position_value": 125,
+      "realized_pnl": 0,
+      "unrealized_pnl": 0,
+      "total_equity": 250,
+      "total_pnl": 0,
+      "total_pnl_pct": 0,
+      "execution_details": [
+        {
+          "cycle": 1,
+          "action": "BUY",
+          "symbol": "BTC/USD",
+          "side": "buy",
+          "qty": 0.0007739695586008265,
+          "notional": 62.5,
+          "fill_price": 80752.53,
+          "fees": 0,
+          "timestamp": "2026-05-05T10:31:47.256Z",
+          "portfolio_before": {
+            "cash": 250,
+            "open_position_value": 0,
+            "realized_pnl": 0,
+            "total_equity": 250
+          },
+          "portfolio_after": {
+            "cash": 187.5,
+            "open_position_value": 62.5,
+            "realized_pnl": 0,
+            "total_equity": 250
+          }
+        },
+        {
+          "cycle": 1,
+          "action": "BUY",
+          "symbol": "ETH/USD",
+          "side": "buy",
+          "qty": 0.026325322011338845,
+          "notional": 62.5,
+          "fill_price": 2374.14,
+          "fees": 0,
+          "timestamp": "2026-05-05T10:31:47.288Z",
+          "portfolio_before": {
+            "cash": 187.5,
+            "open_position_value": 62.5,
+            "realized_pnl": 0,
+            "total_equity": 250
+          },
+          "portfolio_after": {
+            "cash": 125,
+            "open_position_value": 125,
+            "realized_pnl": 0,
+            "total_equity": 250
+          }
+        }
+      ],
+      "first_cycle_terminal": true,
+      "diagnostics": {
+        "started_at": "2026-05-05T10:31:40.238Z",
+        "completed_at": "2026-05-05T10:31:50.702Z",
+        "data_fetch_started": "2026-05-05T10:31:40.238Z",
+        "data_fetch_completed": "2026-05-05T10:31:40.238Z",
+        "strategy_started": "2026-05-05T10:31:40.238Z",
+        "strategy_completed": "2026-05-05T10:31:50.702Z",
+        "init_error": null,
+        "timeout_at": null
+      },
+      "net_pnl": 0,
+      "net_spent": 125,
+      "net_received": 0,
+      "trades": 2,
+      "cycles_completed": 1,
+      "cycles_started": 1,
+      "cycle_status": "COMPLETED",
+      "lastScan": "2026-05-05T10:31:40.238Z",
+      "scan_result": {
+        "action": "BUY",
+        "symbols_considered": [
+          "BTC-USD",
+          "ETH-USD"
+        ],
+        "reasoning_summary": "Momentum scan complete. Market is closed for equities, so only crypto is tradeable. Both BTC-USD (+1.16%) and ETH-USD (+1.17%) meet the strategy threshold of being up more than +0.8% today, and neithe",
+        "order_attempted": true,
+        "order_status": "filled",
+        "completed_at": "2026-05-05T10:31:50.702Z"
+      },
+      "latest_logs": [
+        {
+          "type": "info",
+          "message": "Scan complete and strategy executed.\n\nOrders placed:\n- Buy $62.50 BTC-USD\n- Buy $62.50 ETH-USD\n\nWhy:\n- Equities are closed, so only crypto is eligible.\n- BTC and ETH are both up about +1.16% to +1.17%",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:50.702Z"
+        },
+        {
+          "type": "buy",
+          "message": "BUY ETH/USD — $62.50 | equity +$0.00 | cash $125.00",
+          "symbol": "ETH/USD",
+          "timestamp": "2026-05-05T10:31:47.288Z"
+        },
+        {
+          "type": "info",
+          "message": "📤 BUY ETH/USD $62.50 (crypto/gtc)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:47.257Z"
+        },
+        {
+          "type": "buy",
+          "message": "BUY BTC/USD — $62.50 | equity +$0.00 | cash $187.50",
+          "symbol": "BTC/USD",
+          "timestamp": "2026-05-05T10:31:47.256Z"
+        },
+        {
+          "type": "info",
+          "message": "📤 BUY BTC/USD $62.50 (crypto/gtc)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:47.224Z"
+        },
+        {
+          "type": "ai",
+          "message": "Momentum scan complete. Market is closed for equities, so only crypto is tradeable. Both BTC-USD (+1.16%) and ETH-USD (+1.17%) meet the strategy threshold of being up more than +0.8% today, and neither is overextended beyond the 'never chase >3%' rule. No existing positions. Max position size is 25% of $250 = $62.50 per asset. To stay aligned with momentum strategy while controlling risk, I am opening two starter positions: $62.50 in BTC-USD and $62.50 in ETH-USD using market orders with GTC, leaving half the portfolio in cash for flexibility.",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:45.434Z"
+        },
+        {
+          "type": "market",
+          "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "market",
+          "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        }
+      ],
+      "did_trade": true,
+      "capital_deployed": 125,
+      "deployment_pct": 50,
+      "session_eligible": true,
+      "rank": 2,
+      "rank_label": "#2",
+      "is_tied": false,
+      "tie_break_reason": "equity within $0.01 — ranked by tie-breakers",
+      "comparison_reason": "traded — deployed 50.0% ($125.00)"
+    },
+    {
+      "id": "dip_buyer",
+      "name": "Dip Buyer",
+      "emoji": "📉",
+      "color": "#A78BFA",
+      "status": "LIVE",
+      "budget": 250,
+      "starting_budget": 250,
+      "cash": 250,
+      "open_positions": [],
+      "open_position_value": 0,
+      "realized_pnl": 0,
+      "unrealized_pnl": 0,
+      "total_equity": 250,
+      "total_pnl": 0,
+      "total_pnl_pct": 0,
+      "execution_details": [],
+      "first_cycle_terminal": true,
+      "diagnostics": {
+        "started_at": "2026-05-05T10:31:40.238Z",
+        "completed_at": "2026-05-05T10:31:46.615Z",
+        "data_fetch_started": "2026-05-05T10:31:40.238Z",
+        "data_fetch_completed": "2026-05-05T10:31:40.238Z",
+        "strategy_started": "2026-05-05T10:31:40.238Z",
+        "strategy_completed": "2026-05-05T10:31:46.615Z",
+        "init_error": null,
+        "timeout_at": null
+      },
+      "net_pnl": 0,
+      "net_spent": 0,
+      "net_received": 0,
+      "trades": 0,
+      "cycles_completed": 1,
+      "cycles_started": 1,
+      "cycle_status": "NO_ACTION",
+      "lastScan": "2026-05-05T10:31:40.238Z",
+      "scan_result": {
+        "action": "NO_ACTION",
+        "symbols_considered": [
+          "BTC-USD",
+          "ETH-USD"
+        ],
+        "reasoning_summary": "Scan complete. Account has $250 cash, no open positions. Only crypto is tradeable because equity market is closed. Strategy is mean-reversion dip buying, but both available crypto symbols are up on th",
+        "order_attempted": false,
+        "order_status": "none",
+        "completed_at": "2026-05-05T10:31:46.615Z"
+      },
+      "latest_logs": [
+        {
+          "type": "info",
+          "message": "Scan complete. No trade this cycle.\n\nWhy:\n- Only crypto is tradeable right now.\n- BTC-USD: +1.16% today\n- ETH-USD: +1.17% today\n- My strategy is dip buying/mean reversion, and neither asset is down en",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:46.615Z"
+        },
+        {
+          "type": "ai",
+          "message": "Scan complete. Account has $250 cash, no open positions. Only crypto is tradeable because equity market is closed. Strategy is mean-reversion dip buying, but both available crypto symbols are up on the day: BTC-USD +1.16% and ETH-USD +1.17%. Neither meets the dip criteria (> -1.5% today). Since there is no qualifying pullback and chasing strength would violate strategy discipline, I am not opening a position this cycle.",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:44.588Z"
+        },
+        {
+          "type": "market",
+          "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "market",
+          "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "info",
+          "message": "⏱ Cycle #1 scanning...",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "market",
+          "message": "📉 Dip Buyer live — $250 budget",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        }
+      ],
+      "did_trade": false,
+      "capital_deployed": 0,
+      "deployment_pct": 0,
+      "session_eligible": true,
+      "rank": 3,
+      "rank_label": "#3",
+      "is_tied": false,
+      "tie_break_reason": "equity within $0.01 — ranked by tie-breakers",
+      "comparison_reason": "no action — session eligible, no trade signal"
+    },
+    {
+      "id": "conservative",
+      "name": "Conservative",
+      "emoji": "🛡️",
+      "color": "#60A5FA",
+      "status": "LIVE",
+      "budget": 250,
+      "starting_budget": 250,
+      "cash": 250,
+      "open_positions": [],
+      "open_position_value": 0,
+      "realized_pnl": 0,
+      "unrealized_pnl": 0,
+      "total_equity": 250,
+      "total_pnl": 0,
+      "total_pnl_pct": 0,
+      "execution_details": [],
+      "first_cycle_terminal": true,
+      "diagnostics": {
+        "started_at": "2026-05-05T10:31:40.238Z",
+        "completed_at": "2026-05-05T10:31:46.696Z",
+        "data_fetch_started": "2026-05-05T10:31:40.238Z",
+        "data_fetch_completed": "2026-05-05T10:31:40.238Z",
+        "strategy_started": "2026-05-05T10:31:40.238Z",
+        "strategy_completed": "2026-05-05T10:31:46.696Z",
+        "init_error": null,
+        "timeout_at": null
+      },
+      "net_pnl": 0,
+      "net_spent": 0,
+      "net_received": 0,
+      "trades": 0,
+      "cycles_completed": 1,
+      "cycles_started": 1,
+      "cycle_status": "NO_ACTION",
+      "lastScan": "2026-05-05T10:31:40.238Z",
+      "scan_result": {
+        "action": "NO_ACTION",
+        "symbols_considered": [
+          "BTC-USD",
+          "ETH-USD"
+        ],
+        "reasoning_summary": "Scan complete. Equity market is closed, so only BTC-USD and ETH-USD are tradeable. My conservative strategy is explicitly limited to large-cap household-name equities (AAPL, MSFT, GOOGL, AMZN, NVDA, T",
+        "order_attempted": false,
+        "order_status": "none",
+        "completed_at": "2026-05-05T10:31:46.696Z"
+      },
+      "latest_logs": [
+        {
+          "type": "info",
+          "message": "Scan complete. No trade executed.\n\nReason: equity market is closed, and my strategy only allows conservative entries in specific large-cap stocks. The only available instruments are BTC-USD and ETH-US",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:46.696Z"
+        },
+        {
+          "type": "ai",
+          "message": "Scan complete. Equity market is closed, so only BTC-USD and ETH-USD are tradeable. My conservative strategy is explicitly limited to large-cap household-name equities (AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA) and only when they are flat to slightly up between -0.3% and +1.0%. The only active instruments available now are crypto, and both BTC-USD (+1.16%) and ETH-USD (+1.17%) are outside the allowed entry range even if crypto were considered. No open positions, cash preserved at $250. Therefore I am not entering any trade this cycle.",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:44.711Z"
+        },
+        {
+          "type": "market",
+          "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "market",
+          "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "info",
+          "message": "⏱ Cycle #1 scanning...",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        },
+        {
+          "type": "market",
+          "message": "🛡️ Conservative live — $250 budget",
+          "symbol": null,
+          "timestamp": "2026-05-05T10:31:40.238Z"
+        }
+      ],
+      "did_trade": false,
+      "capital_deployed": 0,
+      "deployment_pct": 0,
+      "session_eligible": false,
+      "rank": 4,
+      "rank_label": "#4",
+      "is_tied": false,
+      "tie_break_reason": "equity within $0.01 — ranked by tie-breakers",
+      "comparison_reason": "no action — strategy universe unavailable in current session"
+    }
+  ],
+  "live_feed": [
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977110702xrfx",
+      "timestamp": "2026-05-05T10:31:50.702Z",
+      "type": "info",
+      "message": "Scan complete and strategy executed.\n\nOrders placed:\n- Buy $62.50 BTC-USD\n- Buy $62.50 ETH-USD\n\nWhy:\n- Equities are closed, so only crypto is eligible.\n- BTC and ETH are both up about +1.16% to +1.17%"
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977109954n8vo",
+      "timestamp": "2026-05-05T10:31:49.954Z",
+      "type": "info",
+      "message": "Scan complete and strategy executed.\n\nOrders placed:\n- Buy $75 BTC-USD at market, GTC\n- Buy $75 ETH-USD at market, GTC\n\nRationale:\n- Both BTC and ETH are up about +1.17% today, clearing the +0.3% mome"
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "17779771072885onk",
+      "timestamp": "2026-05-05T10:31:47.288Z",
+      "type": "buy",
+      "message": "BUY ETH/USD — $62.50 | equity +$0.00 | cash $125.00",
+      "symbol": "ETH/USD",
+      "amount": 62.5
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977107257u0xc",
+      "timestamp": "2026-05-05T10:31:47.257Z",
+      "type": "info",
+      "message": "📤 BUY ETH/USD $62.50 (crypto/gtc)"
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977107256di04",
+      "timestamp": "2026-05-05T10:31:47.256Z",
+      "type": "buy",
+      "message": "BUY BTC/USD — $62.50 | equity +$0.00 | cash $187.50",
+      "symbol": "BTC/USD",
+      "amount": 62.5
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977107224xf2r",
+      "timestamp": "2026-05-05T10:31:47.224Z",
+      "type": "info",
+      "message": "📤 BUY BTC/USD $62.50 (crypto/gtc)"
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "177797710721614jm",
+      "timestamp": "2026-05-05T10:31:47.216Z",
+      "type": "buy",
+      "message": "BUY ETH/USD — $75.00 | equity +$0.00 | cash $100.00",
+      "symbol": "ETH/USD",
+      "amount": 75
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977107128xslc",
+      "timestamp": "2026-05-05T10:31:47.128Z",
+      "type": "info",
+      "message": "📤 BUY ETH/USD $75.00 (crypto/gtc)"
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977107128hky0",
+      "timestamp": "2026-05-05T10:31:47.128Z",
+      "type": "buy",
+      "message": "BUY BTC/USD — $75.00 | equity +$0.00 | cash $175.00",
+      "symbol": "BTC/USD",
+      "amount": 75
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "17779771070383apd",
+      "timestamp": "2026-05-05T10:31:47.038Z",
+      "type": "info",
+      "message": "📤 BUY BTC/USD $75.00 (crypto/gtc)"
+    },
+    {
+      "botId": "conservative",
+      "botName": "Conservative",
+      "id": "1777977106696ijqo",
+      "timestamp": "2026-05-05T10:31:46.696Z",
+      "type": "info",
+      "message": "Scan complete. No trade executed.\n\nReason: equity market is closed, and my strategy only allows conservative entries in specific large-cap stocks. The only available instruments are BTC-USD and ETH-US"
+    },
+    {
+      "botId": "dip_buyer",
+      "botName": "Dip Buyer",
+      "id": "1777977106615ya9e",
+      "timestamp": "2026-05-05T10:31:46.615Z",
+      "type": "info",
+      "message": "Scan complete. No trade this cycle.\n\nWhy:\n- Only crypto is tradeable right now.\n- BTC-USD: +1.16% today\n- ETH-USD: +1.17% today\n- My strategy is dip buying/mean reversion, and neither asset is down en"
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977105434qpn6",
+      "timestamp": "2026-05-05T10:31:45.434Z",
+      "type": "ai",
+      "message": "Momentum scan complete. Market is closed for equities, so only crypto is tradeable. Both BTC-USD (+1.16%) and ETH-USD (+1.17%) meet the strategy threshold of being up more than +0.8% today, and neither is overextended beyond the 'never chase >3%' rule. No existing positions. Max position size is 25% of $250 = $62.50 per asset. To stay aligned with momentum strategy while controlling risk, I am opening two starter positions: $62.50 in BTC-USD and $62.50 in ETH-USD using market orders with GTC, leaving half the portfolio in cash for flexibility."
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977105323qzrh",
+      "timestamp": "2026-05-05T10:31:45.323Z",
+      "type": "ai",
+      "message": "Scan complete. No open positions and $250 cash available. Both tradable crypto symbols show strong positive intraday momentum above the +0.3% aggressive scalping threshold: BTC-USD +1.16% and ETH-USD +1.17%. Strategy allows up to 30% of budget per position, so I will deploy two fast momentum entries at $75 each (30% max is $75) to diversify across both leaders while keeping reserve cash for later rotation. Using market orders with time_in_force=gtc per crypto rules. Plan after entry: target roughly +1.5%, cut near -1%, and if either stalls over subsequent scans, rotate out."
+    },
+    {
+      "botId": "conservative",
+      "botName": "Conservative",
+      "id": "1777977104711541p",
+      "timestamp": "2026-05-05T10:31:44.711Z",
+      "type": "ai",
+      "message": "Scan complete. Equity market is closed, so only BTC-USD and ETH-USD are tradeable. My conservative strategy is explicitly limited to large-cap household-name equities (AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA) and only when they are flat to slightly up between -0.3% and +1.0%. The only active instruments available now are crypto, and both BTC-USD (+1.16%) and ETH-USD (+1.17%) are outside the allowed entry range even if crypto were considered. No open positions, cash preserved at $250. Therefore I am not entering any trade this cycle."
+    },
+    {
+      "botId": "dip_buyer",
+      "botName": "Dip Buyer",
+      "id": "1777977104588kp5s",
+      "timestamp": "2026-05-05T10:31:44.588Z",
+      "type": "ai",
+      "message": "Scan complete. Account has $250 cash, no open positions. Only crypto is tradeable because equity market is closed. Strategy is mean-reversion dip buying, but both available crypto symbols are up on the day: BTC-USD +1.16% and ETH-USD +1.17%. Neither meets the dip criteria (> -1.5% today). Since there is no qualifying pullback and chasing strength would violate strategy discipline, I am not opening a position this cycle."
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977100238jg1u",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)"
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977100238zsh1",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)"
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977100238sz7o",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "info",
+      "message": "⏱ Cycle #1 scanning..."
+    },
+    {
+      "botId": "momentum",
+      "botName": "Momentum Rider",
+      "id": "1777977100238sxa3",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "🚀 Momentum Rider live — $250 budget"
+    },
+    {
+      "botId": "dip_buyer",
+      "botName": "Dip Buyer",
+      "id": "1777977100238vdkw",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)"
+    },
+    {
+      "botId": "dip_buyer",
+      "botName": "Dip Buyer",
+      "id": "1777977100238xe9p",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)"
+    },
+    {
+      "botId": "dip_buyer",
+      "botName": "Dip Buyer",
+      "id": "1777977100238y2e8",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "info",
+      "message": "⏱ Cycle #1 scanning..."
+    },
+    {
+      "botId": "dip_buyer",
+      "botName": "Dip Buyer",
+      "id": "1777977100238acm0",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "📉 Dip Buyer live — $250 budget"
+    },
+    {
+      "botId": "conservative",
+      "botName": "Conservative",
+      "id": "17779771002387wxz",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)"
+    },
+    {
+      "botId": "conservative",
+      "botName": "Conservative",
+      "id": "17779771002388p0c",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)"
+    },
+    {
+      "botId": "conservative",
+      "botName": "Conservative",
+      "id": "17779771002382rza",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "info",
+      "message": "⏱ Cycle #1 scanning..."
+    },
+    {
+      "botId": "conservative",
+      "botName": "Conservative",
+      "id": "1777977100238wy3q",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "🛡️ Conservative live — $250 budget"
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977100238x2en",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "📊 BTC-USD: $80752.53 (+1.16% vol 53907k 🔄24h) | ETH-USD: $2374.14 (+1.17% vol 563k 🔄24h)"
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977100238i74h",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "🌙 Market closed — crypto only: BTC-USD, ETH-USD (skipping equities: ^GSPC, ^IXIC, ^DJI, AAPL, MSFT, GOOGL, TSLA)"
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977100238lfns",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "info",
+      "message": "⏱ Cycle #1 scanning..."
+    },
+    {
+      "botId": "scalper",
+      "botName": "Scalper",
+      "id": "1777977100238j9c6",
+      "timestamp": "2026-05-05T10:31:40.238Z",
+      "type": "market",
+      "message": "⚡ Scalper live — $250 budget"
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "is_tie": false,
+    "race_ready_for_comparison": true,
+    "race_incomplete": false,
+    "ranking_basis": "total_equity_marked_to_market",
+    "tie_break_reason": "equity tied within epsilon — resolved by: 1) traded, 2) deployment %, 3) session eligibility, 4) bot id",
+    "snapshot_id": "snap_moshnqlp_96nik",
+    "leader": "Equity tied — Scalper leads (traded — deployed 60.0% ($150.00))",
+    "total_trades": 4,
+    "total_pnl": 0,
+    "bots_completed_first_cycle": 4,
+    "bots_failed": 0,
+    "bots_timed_out": 0,
+    "bots_with_no_scan": 0,
+    "bots_current_cycle_no_action": 2,
+    "bots_ever_traded": 2
+  }
+}

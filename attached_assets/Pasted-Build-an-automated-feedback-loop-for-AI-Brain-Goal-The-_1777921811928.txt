@@ -1,0 +1,107 @@
+Build an automated feedback loop for AI Brain.
+
+Goal:
+The app exports bot race data automatically, sends it to an analysis endpoint, receives improvement instructions, and stores those instructions for the next development/build cycle.
+
+Create this architecture:
+
+1. Exporter
+- Every race/scan cycle writes a structured export file.
+- File path:
+  /exports/ai_brain/latest_export.json
+- Also append snapshots to:
+  /exports/ai_brain/history/YYYY-MM-DD.jsonl
+
+Export schema:
+{
+  "export_id": "uuid",
+  "created_at": "ISO timestamp",
+  "screen": "AI Brain",
+  "mode": "4-Bot Race",
+  "bots": [
+    {
+      "id": "momentum_rider",
+      "name": "Momentum Rider",
+      "status": "LIVE",
+      "rank": 1,
+      "net_pnl": 0,
+      "trades": 0,
+      "latest_message": "Scan complete. No trade.",
+      "strategy": "momentum",
+      "symbol": null,
+      "confidence": null,
+      "action": "hold"
+    }
+  ],
+  "live_feed": [],
+  "portfolio": {},
+  "signals": [],
+  "journal": [],
+  "errors": []
+}
+
+2. Feedback Request Builder
+Create:
+  /exports/ai_brain/latest_feedback_prompt.txt
+
+It should turn latest_export.json into a prompt like:
+
+"You are reviewing AI Brain trading bot race output.
+Analyze what happened, identify weak agents, missing data, bugs, and next improvements.
+Return only a JSON work packet with:
+- summary
+- problems_found
+- recommended_changes
+- files_to_modify
+- tests_to_run
+- next_prompt_for_replit"
+
+3. Feedback Inbox
+Create:
+  /feedback/inbox/latest_feedback.json
+
+This is where pasted or API-returned ChatGPT feedback lands.
+
+4. Feedback Applier Queue
+Create:
+  /feedback/queue/work_packets.jsonl
+
+When feedback is received, append it as a work packet:
+{
+  "packet_id": "uuid",
+  "created_at": "ISO timestamp",
+  "source": "chatgpt_feedback",
+  "status": "pending",
+  "approval_required": true,
+  "summary": "",
+  "recommended_changes": [],
+  "files_to_modify": [],
+  "tests_to_run": [],
+  "next_prompt_for_replit": ""
+}
+
+5. Admin UI
+Add a Feedback Loop panel:
+- latest export timestamp
+- latest bot results
+- latest feedback status
+- button: Generate Export
+- button: Generate Feedback Prompt
+- textarea: Paste ChatGPT Feedback JSON
+- button: Queue Feedback
+- button: Download latest_export.json
+- button: Download latest_feedback_prompt.txt
+
+6. Optional API hook
+Create server endpoint:
+POST /api/ai-brain/export
+GET /api/ai-brain/latest-export
+GET /api/ai-brain/latest-feedback-prompt
+POST /api/ai-brain/feedback
+
+Important:
+- Do not expose API keys in frontend.
+- Do not auto-modify code from feedback yet.
+- Feedback creates pending work packets only.
+- Human approval required before applying changes.
+- Keep this local-first and Replit-safe.

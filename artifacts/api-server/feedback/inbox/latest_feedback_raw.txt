@@ -1,0 +1,52 @@
+{
+  "summary": "All 4 bots completed their first scan without runtime errors, but 3 bots stayed in cash because the app limited trading to crypto after hours and their strategy rules did not allow an entry. Scalper was the only agent to act, opening two crypto positions, yet the race still showed a full tie because positions were marked at entry with zero PnL.",
+  "problems_found": [
+    "Race comparison is flagged as ready and a tie after only one cycle, even though one bot has open positions and no meaningful marked-to-market divergence yet.",
+    "Conservative bot is effectively non-competitive in overnight races because its universe is equities-only while the engine restricts after-hours trading to crypto only.",
+    "Dip Buyer is also weak in the current environment because it has no alternate logic for non-dip/crypto-only conditions, causing repeated no-action outcomes.",
+    "Momentum Rider threshold appears too strict for the available overnight universe, making it likely to idle frequently when only BTC-USD and ETH-USD are tradable.",
+    "Symbol format is inconsistent: input universe and scan_result use BTC-USD/ETH-USD while executed positions and trade logs use BTC/USD and ETH/USD.",
+    "Data fetch diagnostics are suspicious: data_fetch_started and data_fetch_completed are identical timestamps for all bots, suggesting missing per-bot fetch timing or reused shared timestamps.",
+    "Logs and reasoning_summary strings are truncated in export/live feed, reducing debuggability and making post-race analysis incomplete.",
+    "Conservative reasoning references AMZN and NVDA in its strategy universe even though they are not present in the race symbols list, indicating strategy/universe mismatch.",
+    "Ranking fields are incomplete: each bot rank is null while rank_label says TIE, which is an inconsistent state for downstream UI/analytics.",
+    "bots_completed is 1 while bots_completed_first_cycle is 4 and all bots have terminal first-cycle states, suggesting race health status bookkeeping is incorrect or ambiguously defined.",
+    "No exit logic or target/stop metadata is visible for Scalper's open positions, so there is no evidence the system can evaluate whether the trade was strategically complete or just entered.",
+    "No quote freshness/source metadata is exported, making it impossible to confirm whether the mark prices used for scans and portfolio valuation are current."
+  ],
+  "recommended_changes": [
+    "Add a race-state gate so comparison/leader/tie are only finalized after either a minimum elapsed time, at least one mark-to-market price update after fills, or a configurable number of cycles; do not declare 'ready for comparison' immediately after initial entries at zero PnL.",
+    "Normalize symbols across the entire pipeline to one canonical format (prefer BTC-USD/ETH-USD) for universe selection, order placement, positions, logs, and exports.",
+    "Refactor race health and ranking computation so rank values are always populated, bots_completed semantics are consistent, and ties are only shown when comparison criteria are truly met.",
+    "Expand per-bot diagnostics to include real fetch duration, quote timestamp, quote source, decision latency, and whether data was shared or bot-specific.",
+    "Stop truncating exported reasoning and live log messages, or add parallel full_text fields so analysis tools can inspect complete AI rationale.",
+    "Make strategy eligibility explicit before race start: warn that Conservative is equities-only and likely inactive overnight, or auto-swap it for an after-hours compatible variant.",
+    "Add fallback modes for weak agents: Dip Buyer can look for short-term pullbacks in crypto, and Momentum Rider can use adaptive thresholds based on current volatility instead of a hard >0.8% trigger.",
+    "Export trade plan metadata for each entry, including target, stop, holding horizon, and exit conditions, so open trades can be judged against strategy intent.",
+    "Ensure strategy universes are derived from the actual race symbol list or clearly separated from commentary so bots do not mention unsupported tickers like AMZN/NVDA.",
+    "Add quote refresh after fills and mark open positions with latest price before generating the race summary."
+  ],
+  "files_to_modify": [
+    "server/ai-brain/raceSummary.ts",
+    "server/ai-brain/raceHealth.ts",
+    "server/ai-brain/ranking.ts",
+    "server/ai-brain/symbols.ts",
+    "server/ai-brain/exportRace.ts",
+    "server/ai-brain/bots/momentum.ts",
+    "server/ai-brain/bots/dipBuyer.ts",
+    "server/ai-brain/bots/conservative.ts",
+    "server/ai-brain/marketData.ts",
+    "server/ai-brain/liveFeed.ts"
+  ],
+  "tests_to_run": [
+    "Run an overnight 4-bot race and verify the app does not declare final comparison/tie immediately after first entries if open positions have not been repriced.",
+    "Verify BTC-USD and ETH-USD appear consistently in scan results, orders, positions, logs, and export JSON with no BTC/USD variants.",
+    "Confirm rank fields are numeric/populated and tie labels only appear when comparison gating conditions are satisfied.",
+    "Check race_health values for bots_completed, bots_completed_first_cycle, bots_no_action, and race_ready_for_comparison are internally consistent.",
+    "Inspect exported logs and reasoning summaries to ensure full, non-truncated text is preserved.",
+    "Verify Conservative either shows a clear pre-race incompatibility warning overnight or uses a supported after-hours fallback strategy.",
+    "Test Momentum and Dip Buyer in crypto-only mode to confirm adaptive/fallback logic can generate trades when conditions are appropriate without violating risk rules.",
+    "Open positions should include latest mark price, quote timestamp, and strategy exit metadata after trade execution.",
+    "Confirm diagnostics show non-zero or realistic fetch/decision durations and indicate whether market data was shared across bots."
+  ],
+  "next_prompt_for_replit": "Implement the race comparison gating and ranking fix for AI Brain. Right now the app marks the race as ready for comparison and shows a tie immediately after cycle 1 even when a bot just opened positions and all equity values are still exactly at entry price. Update the race summary pipeline so leader/tie/rank are only finalized when comparison is meaningful. Requirements: 1) add a configurable gate such as minimumCyclesForComparison OR minimumElapsedMsSinceFirstFill OR at least one fresh mark-to-market quote after any fill; 2) if the gate is not met, set race_ready_for_comparison=false, leader='PENDING', and avoid final tie messaging; 3) always populate rank fields consistently, even in pending state; 4) make bots_completed semantics consistent with first-cycle-terminal bots; 5) add unit-safe helper logic so open positions with unchanged entry price do not trigger premature tie conclusions; 6) update export JSON and UI-facing summary fields without breaking existing consumers; 7) add tests covering: all bots no-action after cycle 1, one bot enters trades with no fresh repricing yet, one bot enters and receives a newer mark price, and a true tie after comparison gate is satisfied. Also audit related files for inconsistent rank/tie state and fix them."
